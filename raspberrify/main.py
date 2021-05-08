@@ -17,7 +17,8 @@ def main() -> None:
         redirect_uri=config["REDIRECT_URI"],
     )
 
-    spotify.get_cover(sp).show()
+    im = spotify.get_cover(sp)
+    print(im.mode)
 
 
 if __name__ == "__main__":
