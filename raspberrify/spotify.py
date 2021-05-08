@@ -21,7 +21,8 @@ def authorize(
 
 
 def get_cover(sp: spotipy.client.Spotify) -> Image.Image:  # TODO improve error handling
-    track = sp.currently_playing()
+    track = sp.currently_playing()                          # TODO hangs when not playing???
+    print(track)
 
     if track is not None:
         image_url = track["item"]["album"]["images"][0]["url"]
