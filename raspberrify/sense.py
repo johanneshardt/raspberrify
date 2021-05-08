@@ -1,7 +1,7 @@
 from sense_hat import SenseHat
 
 sense = SenseHat()
-sense.set_rotation(r="180")
+sense.set_rotation(r=180)
 
 
 def show(matrix: list[list[int]]) -> None:
