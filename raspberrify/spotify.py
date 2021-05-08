@@ -20,8 +20,8 @@ def authorize(
     return sp
 
 
-def get_cover(sp: spotipy.client.Spotify) -> Image.Image: # TODO improve error handling
-    track = sp.currently_playing
+def get_cover(sp: spotipy.client.Spotify) -> Image.Image:  # TODO improve error handling
+    track = sp.currently_playing()
 
     if track is not None:
         image_url = track["item"]["album"]["images"][0]["url"]
