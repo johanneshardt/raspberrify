@@ -20,12 +20,14 @@ def authorize(
     return sp
 
 
-def get_cover(sp: spotipy.client.Spotify) -> Image.Image:
+def get_cover(sp: spotipy.client.Spotify) -> Image.Image: # TODO improve error handling
     track = sp.currently_playing
 
     if track is not None:
         image_url = track["item"]["album"]["images"][0]["url"]
-        im = Image.open(requests.get(image_url, stream=True).raw)
+        response = requests.get(image_url, stream=True)
+        response.raise_for_status()
+        im = Image.open(response.raw)
         return im
     else:
         print("No track is currently playing.")
