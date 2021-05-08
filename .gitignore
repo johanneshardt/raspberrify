@@ -164,5 +164,7 @@ Thumbs.db
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode
+
+# Ignore .env files except the example
 .env*
 !.env.example
