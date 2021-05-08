@@ -10,6 +10,7 @@ Pillow = "^8.2.0"
 requests = "^2.25.1"
 spotipy = "^2.18.0"
 sense-hat = "^2.2.0"
+python-dotenv = "^0.17.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
