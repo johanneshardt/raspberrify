@@ -1,6 +1,8 @@
 import pprint
 import requests
 import raspberrify.spotify as spotify
+import raspberrify.sense as sense
+from PIL import Image
 from dotenv import dotenv_values
 
 
@@ -17,7 +19,8 @@ def main() -> None:
         redirect_uri=config["REDIRECT_URI"],
     )
 
-    im = spotify.get_cover(sp)
+    im = spotify.get_cover(sp).resize(size=(8, 8), resample=Image.LANCZOS)
+    sense.show(list(im.getdata()))
     print(im.mode)
 
 
