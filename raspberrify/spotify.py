@@ -1,4 +1,6 @@
 import spotipy
+import requests
+from PIL import Image
 from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
 
 
@@ -16,3 +18,14 @@ def authorize(
     )
 
     return sp
+
+
+def get_cover(sp: spotipy.client.Spotify) -> Image.Image:
+    track = sp.currently_playing
+
+    if track is not None:
+        image_url = track["item"]["album"]["images"][0]["url"]
+        im = Image.open(requests.get(image_url, stream=True).raw)
+        return im
+    else:
+        print("No track is currently playing.")
