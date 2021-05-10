@@ -5,7 +5,7 @@ from PIL import Image
 from dotenv import dotenv_values
 
 # Time to wait between fetching information from the spotify api
-SPOTIFY_REFRESH_DELAY = 3
+SPOTIFY_REFRESH_DELAY = 1
 
 
 def main() -> None:
