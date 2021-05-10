@@ -3,6 +3,7 @@ from typing import List
 
 sense = SenseHat()
 sense.set_rotation(r=180)
+sense.clear()
 
 
 def show(matrix: List[List[int]]) -> None:
@@ -10,3 +11,5 @@ def show(matrix: List[List[int]]) -> None:
         sense.set_pixels(matrix)
     else:
         print("Invalid matrix dimensions")
+
+
