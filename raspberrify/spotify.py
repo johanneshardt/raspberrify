@@ -1,9 +1,48 @@
 import spotipy
 import requests
 from PIL import Image
+from spotipy.client import Spotify
 from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
+from enum import Enum, unique, auto
+from typing import Dict
 
 
+@unique
+class State(Enum):
+    PLAYING = auto()
+    PAUSED = auto()
+
+
+class Playback:
+    def __init__(self, sp: spotipy.client.Spotify):
+        self.client = sp
+        self.track = None
+        self.track_id = None
+        self.state = None
+        self.image_link = None
+        self.refresh(sp)
+
+
+    def refresh(self) -> None:
+        track = self.client.currently_playing()
+        if track is not None:
+            self.state = State.PLAYING
+            self.image_link = track["item"]["album"]["images"][0]["url"]
+            self.track = track["item"]["name"]
+            self.track_id = track["item"]["id"]
+        else:
+            self.status = State.PAUSED
+
+    def get_cover(self) -> Image.Image:
+        response = requests.get(self.image_link, stream=True)
+        response.raise_for_status()
+        im = Image.open(response.raw)
+        return im
+
+        
+
+
+# TODO combine with Playback class somehow?
 def authorize(
     client_id: str, client_secret: str, redirect_uri: str
 ) -> spotipy.client.Spotify:
@@ -19,16 +58,3 @@ def authorize(
 
     return sp
 
-
-def get_cover(sp: spotipy.client.Spotify) -> Image.Image:  # TODO improve error handling
-    track = sp.currently_playing()                          # TODO hangs when not playing???
-    print(track)
-
-    if track is not None:
-        image_url = track["item"]["album"]["images"][0]["url"]
-        response = requests.get(image_url, stream=True)
-        response.raise_for_status()
-        im = Image.open(response.raw)
-        return im
-    else:
-        print("No track is currently playing.")
