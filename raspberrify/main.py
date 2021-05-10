@@ -21,6 +21,7 @@ def main() -> None:
         redirect_uri=config["REDIRECT_URI"],
     )
 
+    print("Authorization succeeded!")
     player = spotify.Playback(sp=sp)
     cached_track = player.track_id
 
