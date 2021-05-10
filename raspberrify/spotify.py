@@ -20,7 +20,7 @@ class Playback:
         self.track_id = None
         self.state = None
         self.image_link = None
-        self.refresh(sp)
+        self.refresh()
 
 
     def refresh(self) -> None:
