@@ -29,8 +29,10 @@ def main() -> None:
     while True:
         player.refresh()
         if cached_track != player.track_id:
+            print("lol")
             im = player.get_cover().resize(size=(8, 8), resample=Image.LANCZOS)
             sense.show(list(im.getdata()))
+
         cached_track = player.track_id
         print("looped!")
         sleep(SPOTIFY_REFRESH_DELAY)
