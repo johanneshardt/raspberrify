@@ -5,7 +5,7 @@ from PIL import Image
 from dotenv import dotenv_values
 
 # Time to wait between fetching information from the spotify api
-SPOTIFY_REFRESH_DELAY = 5
+SPOTIFY_REFRESH_DELAY = 3
 
 
 def main() -> None:
@@ -29,12 +29,10 @@ def main() -> None:
     while True:
         player.refresh()
         if cached_track != player.track_id:
-            print("lol")
             im = player.get_cover().resize(size=(8, 8), resample=Image.LANCZOS)
             sense.show(list(im.getdata()))
 
         cached_track = player.track_id
-        print("looped!")
         sleep(SPOTIFY_REFRESH_DELAY)
 
 
