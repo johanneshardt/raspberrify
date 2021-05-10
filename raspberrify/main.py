@@ -32,6 +32,8 @@ def main() -> None:
             im = player.get_cover().resize(size=(8, 8), resample=Image.LANCZOS)
             sense.show(list(im.getdata()))
         cached_track = player.track_id
+        print("Nice")
+        sleep(SPOTIFY_REFRESH_DELAY)
 
 
 if __name__ == "__main__":
