@@ -24,7 +24,7 @@ def main() -> None:
     print("Authorization succeeded!")
     player = spotify.Playback(sp=sp)
     print("Initialized")
-    cached_track = player.track_id
+    cached_track = None
 
     while True:
         player.refresh()
