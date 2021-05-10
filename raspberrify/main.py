@@ -1,5 +1,3 @@
-import pprint
-import requests
 import raspberrify.spotify as spotify
 import raspberrify.sense as sense
 from time import sleep
@@ -16,7 +14,7 @@ def main() -> None:
 
     """for key, value in config.items():
         print(f"{key}: {value}")"""
-    
+
     sp = spotify.authorize(
         client_id=config["CLIENT_ID"],
         client_secret=config["CLIENT_SECRET"],

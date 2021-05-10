@@ -1,10 +1,8 @@
 import spotipy
 import requests
 from PIL import Image
-from spotipy.client import Spotify
-from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
+from spotipy.oauth2 import SpotifyOAuth
 from enum import Enum, unique, auto
-from typing import Dict
 
 
 @unique
@@ -22,7 +20,6 @@ class Playback:
         self.image_link = None
         self.refresh()
 
-
     def refresh(self) -> None:
         track = self.client.currently_playing()
         if track is not None:
@@ -38,8 +35,6 @@ class Playback:
         response.raise_for_status()
         im = Image.open(response.raw)
         return im
-
-        
 
 
 # TODO combine with Playback class somehow?
@@ -57,4 +52,3 @@ def authorize(
     )
 
     return sp
-
