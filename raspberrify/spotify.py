@@ -24,9 +24,9 @@ class Playback:
         track = self.client.currently_playing()
         if track is not None:
             self.state = State.PLAYING
-            self.image_link = track["item"]["album"]["images"][0]["url"]
             self.track = track["item"]["name"]
             self.track_id = track["item"]["id"]
+            self.image_link = track["item"]["album"]["images"][0]["url"]
         else:
             self.status = State.PAUSED
 
