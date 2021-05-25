@@ -1,5 +1,6 @@
 import raspberrify.spotify as spotify
 import raspberrify.sense as sense
+import threading
 from time import sleep
 from PIL import Image
 from dotenv import dotenv_values

@@ -22,6 +22,7 @@ class Playback:
 
     def refresh(self) -> None:
         track = self.client.currently_playing()
+        print(track)
         if track['item'] is not None:
             self.state = State.PLAYING
             self.track = track["item"]["name"]
