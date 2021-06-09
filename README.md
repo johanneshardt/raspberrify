@@ -17,8 +17,10 @@ Secrets needed for [Spotify authorization](https://developer.spotify.com/documen
 This project is licensed under the MIT License - see the LICENSE.md file for details
 
 ## Acknowledgements
-* [Poetry](https://python-poetry.org/)
-* [Spotipy](https://spotipy.readthedocs.io/en/2.18.0/#authorization-code-flow)
 * [Dotenv](https://pypi.org/project/python-dotenv/)
+* [Pillow](https://pillow.readthedocs.io/en/stable/)
+* [Poetry](https://python-poetry.org/)
+* [Requests](https://docs.python-requests.org/en/master/)
+* [Spotipy](https://spotipy.readthedocs.io/en/2.18.0/#authorization-code-flow)
 * [README template](https://gist.github.com/DomPizzie/7a5ff55ffa9081f2de27c315f5018afc)
 
