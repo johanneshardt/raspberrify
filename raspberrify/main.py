@@ -15,6 +15,7 @@ def fetch_info(player: spotify.Playback, refresh_delay: int = 3) -> None:
     while True:
         player.refresh()
         if cached_track != player.track_id:
+            logging.info(msg="Changed track.")
             im = player.get_cover().resize(size=(8, 8), resample=Image.LANCZOS)
             sense.show(list(im.getdata()))
 
