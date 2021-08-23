@@ -1,10 +1,11 @@
 import raspberrify.spotify as spotify
 import raspberrify.sense as sense
-import threading
+import threading, logging
 from time import sleep
 from PIL import Image
 from dotenv import dotenv_values
 
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s: %(levelname)s - %(message)s')
 
 def main() -> None:
 
@@ -22,9 +23,9 @@ def main() -> None:
         redirect_uri=config["REDIRECT_URI"],
     )
 
-    print("Authorization succeeded!")
+    logging.info("Authorization succeeded!")
     player = spotify.Playback(sp=sp)
-    print("Initialized")
+    logging.info("Initialized")
     cached_track = None
 
     while True:
