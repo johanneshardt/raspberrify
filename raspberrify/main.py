@@ -9,11 +9,20 @@ logging.basicConfig(
     level=logging.DEBUG, format="%(asctime)s: %(levelname)s - %(message)s"
 )
 
+def fetch_info(player: spotify.Playback, refresh_delay: int = 3) -> None:
+    cached_track = None
+
+    while True:
+        player.refresh()
+        if cached_track != player.track_id:
+            im = player.get_cover().resize(size=(8, 8), resample=Image.LANCZOS)
+            sense.show(list(im.getdata()))
+
+        cached_track = player.track_id
+        sleep(refresh_delay)
+
 
 def main() -> None:
-
-    # Time to wait between fetching information from the spotify api
-    SPOTIFY_REFRESH_DELAY = 3
 
     config = dotenv_values("../.env.secrets")
 
@@ -27,18 +36,10 @@ def main() -> None:
     )
 
     logging.info("Authorization succeeded!")
-    player = spotify.Playback(sp=sp)
+    p = spotify.Playback(sp=sp)
     logging.info("Initialized")
-    cached_track = None
+    fetch_info(player=p)
 
-    while True:
-        player.refresh()
-        if cached_track != player.track_id:
-            im = player.get_cover().resize(size=(8, 8), resample=Image.LANCZOS)
-            sense.show(list(im.getdata()))
-
-        cached_track = player.track_id
-        sleep(SPOTIFY_REFRESH_DELAY)
 
 
 if __name__ == "__main__":

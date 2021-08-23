@@ -37,6 +37,18 @@ class Playback:
         im = Image.open(response.raw)
         return im
 
+    
+    def toggle_playback(self) -> None:
+        if self.state == State.PLAYING:
+            print("Paused playback.")
+            self.pause_playback()
+        else:
+            print("Resumed playback.")
+            self.start_playback()
+        # TODO Handle case when nothing is playing??
+
+
+
 
 # TODO combine with Playback class somehow?
 def authorize(
