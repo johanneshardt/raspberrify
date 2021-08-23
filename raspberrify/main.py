@@ -5,11 +5,11 @@ from time import sleep
 from PIL import Image
 from dotenv import dotenv_values
 
-# Time to wait between fetching information from the spotify api
-SPOTIFY_REFRESH_DELAY = 3
-
 
 def main() -> None:
+
+    # Time to wait between fetching information from the spotify api
+    SPOTIFY_REFRESH_DELAY = 3
 
     config = dotenv_values("../.env.secrets")
 
