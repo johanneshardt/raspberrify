@@ -20,7 +20,7 @@ def fetch_info(player: spotify.Playback, refresh_delay: int = 3) -> None:
             sense.show(list(im.getdata()))
 
         cached_track = player.track_id
-        sleep(refresh_delay)
+        threading.Timer(refresh_delay).start
 
 
 def main() -> None:
