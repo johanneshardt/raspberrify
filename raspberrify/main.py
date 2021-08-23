@@ -6,7 +6,7 @@ from PIL import Image
 from dotenv import dotenv_values
 
 logging.basicConfig(
-    level=logging.DEBUG, format="%(asctime)s: %(levelname)s - %(message)s"
+    level=logging.INFO, format="%(asctime)s: %(levelname)s - %(message)s"
 )
 
 def fetch_info(player: spotify.Playback, refresh_delay: int = 3) -> None:
