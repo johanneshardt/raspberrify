@@ -1,3 +1,4 @@
+import logging
 from sense_hat import SenseHat
 from typing import List
 
@@ -10,4 +11,4 @@ def show(matrix: List[List[int]]) -> None:
     if len(matrix) == 64 and all(len(e) == 3 for e in matrix):
         sense.set_pixels(matrix)
     else:
-        print("Invalid matrix dimensions")
+        logging.exception(msg="Invalid matrix dimensions.")
