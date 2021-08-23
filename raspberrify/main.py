@@ -5,7 +5,10 @@ from time import sleep
 from PIL import Image
 from dotenv import dotenv_values
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s: %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.DEBUG, format="%(asctime)s: %(levelname)s - %(message)s"
+)
+
 
 def main() -> None:
 
