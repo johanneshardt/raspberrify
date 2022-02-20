@@ -13,6 +13,8 @@ Secrets needed for [Spotify authorization](https://developer.spotify.com/documen
 
 ## Version history
 
+This project is not finished yet - i mainly still want to add support for controlling playback through the SenseHat joystick.
+
 ## License
 This project is licensed under the MIT License - see the LICENSE.md file for details
 
