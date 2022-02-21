@@ -8,8 +8,6 @@ The [Raspberry Pi SenseHat](https://www.raspberrypi.org/products/sense-hat/) has
 ### Installation
 This project is using [Poetry](https://python-poetry.org/) for dependence management. After installing Poetry, run ```poetry install``` in the root directory to download all dependencies.
 
-**WARNING:** On Windows, the included Numpy dependency doesn't install correctly. This is fine since the code is supposed to run on a Raspberry Pi anyway. If you want to install the dependency, you can downgrade python to 3.9 through the ```pyproject.toml``` file.
-
 ### Configuration
 Secrets needed for [Spotify authorization](https://developer.spotify.com/documentation/general/guides/app-settings/#register-your-app) are specified in ```.env``` files. The provided ```.env.example``` shows the requred fields. Create a ```.env.secrets``` file to specify your credentials, which can be obtained through the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/applications).
 
