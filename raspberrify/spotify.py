@@ -18,12 +18,13 @@ class Playback:
         self.track_id = None
         self.state = None
         self.image_link = None
+        self.cached_track = None
         self.refresh()
 
     def refresh(self) -> None:
         track = self.client.currently_playing()
-        
-        if track is not None and track['item'] is not None:
+
+        if track is not None and track["item"] is not None:
             self.state = State.PLAYING
             self.track = track["item"]["name"]
             self.track_id = track["item"]["id"]
@@ -37,7 +38,6 @@ class Playback:
         im = Image.open(response.raw)
         return im
 
-    
     def toggle_playback(self) -> None:
         if self.state == State.PLAYING:
             print("Paused playback.")
@@ -46,8 +46,6 @@ class Playback:
             print("Resumed playback.")
             self.start_playback()
         # TODO Handle case when nothing is playing??
-
-
 
 
 # TODO combine with Playback class somehow?
