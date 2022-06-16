@@ -1,5 +1,5 @@
-import raspberrify.spotify as spotify
-import raspberrify.sense as sense
+import spotify as spotify
+import sense as sense
 import threading, logging
 from time import sleep
 from PIL import Image

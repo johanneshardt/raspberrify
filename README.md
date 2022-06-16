@@ -6,7 +6,12 @@ The [Raspberry Pi SenseHat](https://www.raspberrypi.org/products/sense-hat/) has
 
 ## Getting started
 ### Installation
-This project is using [Poetry](https://python-poetry.org/) for dependence management. After installing Poetry, run ```poetry install``` in the root directory to download all dependencies.
+This project is using [Poetry](https://python-poetry.org/) for dependence management. 
+After installing Poetry, run ```poetry install``` in the root directory to download all dependencies. 
+Since the version of RTIMULib available through pip doesn't install on a current version of Raspbian OS,
+you need to run ```git clone https://github.com/RPi-Distro/RTIMULib``` to grab a working version.
+Do this in the parent directory of ```raspberrify```, it should then work with ```poetry install```. 
+If Pillow fails to install due to missing ```jpeg```, run ```sudo apt install libjpeg-dev zlib1g-dev``` to install the required dependencies.
 
 ### Configuration
 Secrets needed for [Spotify authorization](https://developer.spotify.com/documentation/general/guides/app-settings/#register-your-app) are specified in ```.env``` files. The provided ```.env.example``` shows the requred fields. Create a ```.env.secrets``` file to specify your credentials, which can be obtained through the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/applications).
