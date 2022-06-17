@@ -1,8 +1,12 @@
 import spotipy
 import requests
+import threading
+import logging
 from PIL import Image
 from spotipy.oauth2 import SpotifyOAuth
 from enum import Enum, unique, auto
+
+logger = logging.getLogger(__name__)
 
 
 @unique
@@ -12,25 +16,30 @@ class State(Enum):
 
 
 class Playback:
-    def __init__(self, sp: spotipy.client.Spotify):
+    def __init__(self, sp: spotipy.client.Spotify, lock: threading.Lock):
         self.client = sp
+        self.lock = lock
         self.track = None
         self.track_id = None
         self.state = None
+        self.volume = None
         self.image_link = None
         self.cached_track = None
         self.refresh()
 
     def refresh(self) -> None:
-        track = self.client.currently_playing()
+        self.lock.acquire()
+        p = self.client.currently_playing()
 
-        if track is not None and track["item"] is not None:
+        if p is not None and p["item"] is not None:
             self.state = State.PLAYING
-            self.track = track["item"]["name"]
-            self.track_id = track["item"]["id"]
-            self.image_link = track["item"]["album"]["images"][0]["url"]
+            self.track = p["item"]["name"]
+            self.track_id = p["item"]["id"]
+            self.image_link = p["item"]["album"]["images"][0]["url"]
+            self.volume = p["device"]["volume_percent"]
         else:
             self.status = State.PAUSED
+        self.lock.release()
 
     def get_cover(self) -> Image.Image:
         response = requests.get(self.image_link, stream=True)
@@ -40,12 +49,29 @@ class Playback:
 
     def toggle_playback(self) -> None:
         if self.state == State.PLAYING:
-            print("Paused playback.")
-            self.pause_playback()
+            self.client.pause_playback()
+            logger.info(msg=f"Paused playback.")
         else:
-            print("Resumed playback.")
-            self.start_playback()
+            self.client.start_playback()
+            logger.info(msg="Resumed playback.")
         # TODO Handle case when nothing is playing??
+
+    def next(self) -> None:
+        self.lock.acquire()
+        self.client.next_track()
+        self.lock.release()
+
+    def previous(self) -> None:
+        self.lock.acquire()
+        self.client.previous_track()
+        self.lock.release()
+
+    def modify_volume(self, step: int) -> None:
+        self.lock.acquire()
+        new_volume = min(100, max(0, self.volume + step))
+        self.client.volume(new_volume)
+        logger.info(msg=f"Set volume to {new_volume}.")
+        self.lock.release()
 
 
 # TODO combine with Playback class somehow?
