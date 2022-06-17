@@ -6,7 +6,7 @@ from typing import List, Callable
 logger = logging.getLogger(__name__)
 
 SENSE = SenseHat()
-SENSE.set_rotation(r=180)
+# SENSE.set_rotation(r=180)
 SENSE.clear()
 
 
@@ -32,7 +32,6 @@ def link_stick(
     on_middle: tuple[Callable, list[Trigger]],
     on_all: tuple[Callable, list[Trigger]] = None,
 ) -> None:
-
     def conditional(func, triggers: list[Trigger]):
         @functools.wraps(func)
         def wrapper(event: InputEvent):
@@ -49,4 +48,3 @@ def link_stick(
 
     if on_all is not None:
         SENSE.stick.direction_any = conditional(*on_all)
-

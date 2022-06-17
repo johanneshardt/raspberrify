@@ -1,7 +1,6 @@
 import spotipy
 import requests
-import threading
-import logging
+import threading, logging
 from PIL import Image
 from spotipy.oauth2 import SpotifyOAuth
 from enum import Enum, unique, auto
@@ -49,7 +48,7 @@ class Playback:
 
     def toggle_playback(self) -> None:
         self.refresh()
-        self.lock.acquire() # TODO improve
+        self.lock.acquire()  # TODO improve
 
         if self.state == State.PLAYING:
             self.client.pause_playback()
@@ -85,7 +84,13 @@ class Playback:
 def authorize(
     client_id: str, client_secret: str, redirect_uri: str
 ) -> spotipy.client.Spotify:
-    scope = ["user-read-currently-playing", "user-library-read", "user-read-playback-state", "streaming", "user-modify-playback-state"]
+    scope = [
+        "user-read-currently-playing",
+        "user-library-read",
+        "user-read-playback-state",
+        "streaming",
+        "user-modify-playback-state",
+    ]
     sp = spotipy.Spotify(
         auth_manager=SpotifyOAuth(
             client_id=client_id,

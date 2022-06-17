@@ -1,8 +1,6 @@
-from sense import link_stick, Trigger
-import spotify as spotify
-import sense as sense
 import threading, logging
-from time import sleep
+import spotify as spotify
+from sense import link_stick, show, Trigger
 from PIL import Image
 from dotenv import dotenv_values
 
@@ -23,7 +21,7 @@ def fetch_display_info(player: spotify.Playback) -> None:
     if player.cached_track != player.track_id:
         logging.info(msg=f"Changed track to {player.track_id}")
         im = player.get_cover().resize(size=(8, 8), resample=Image.Resampling.LANCZOS)
-        sense.show(list(im.getdata()))
+        show(list(im.getdata()))
 
     player.cached_track = player.track_id  # TODO fix race condition
 
@@ -45,17 +43,22 @@ def main() -> None:
     p = spotify.Playback(sp=sp, lock=threading.Lock())
     logging.info("Initialized client!")
 
-    sense.link_stick(
-        on_up=(lambda *args, **kwargs: p.modify_volume(2), [Trigger.HOLD, Trigger.PRESS]),
-        on_down=(lambda *args, **kwargs: p.modify_volume(-2), [Trigger.HOLD, Trigger.PRESS]),
+    link_stick(
+        on_up=(
+            lambda *args, **kwargs: p.modify_volume(2),
+            [Trigger.HOLD, Trigger.PRESS],
+        ),
+        on_down=(
+            lambda *args, **kwargs: p.modify_volume(-2),
+            [Trigger.HOLD, Trigger.PRESS],
+        ),
         on_left=(lambda *args, **kwargs: p.previous(), [Trigger.PRESS]),
         on_right=(lambda *args, **kwargs: p.next(), [Trigger.PRESS]),
         on_middle=(lambda *args, **kwargs: p.toggle_playback(), [Trigger.PRESS]),
         on_all=(lambda *args, **kwargs: p.refresh(), [Trigger.PRESS]),
     )
-    
-    loop(player=p)
 
+    loop(player=p)
 
 
 # shamelessly stolen from https://stackoverflow.com/questions/12435211/threading-timer-repeat-function-every-n-seconds
