@@ -32,7 +32,7 @@ class Playback:
         p = self.client.current_playback()
 
         if p is not None and p["item"] is not None:
-            self.state = State.PLAYING
+            self.state = State.PLAYING if p["is_playing"] else State.PAUSED
             self.track = p["item"]["name"]
             self.track_id = p["item"]["id"]
             self.image_link = p["item"]["album"]["images"][0]["url"]
@@ -48,13 +48,19 @@ class Playback:
         return im
 
     def toggle_playback(self) -> None:
+        self.refresh()
+        self.lock.acquire() # TODO improve
+
         if self.state == State.PLAYING:
             self.client.pause_playback()
+            self.state = State.PAUSED
             logger.info(msg=f"Paused playback.")
         else:
             self.client.start_playback()
+            self.state = State.PLAYING
             logger.info(msg="Resumed playback.")
         # TODO Handle case when nothing is playing??
+        self.lock.release()
 
     def next(self) -> None:
         self.lock.acquire()
@@ -70,6 +76,7 @@ class Playback:
         self.lock.acquire()
         new_volume = min(100, max(0, self.volume + step))
         self.client.volume(new_volume)
+        self.volume = new_volume
         logger.info(msg=f"Set volume to {new_volume}.")
         self.lock.release()
 
@@ -78,7 +85,7 @@ class Playback:
 def authorize(
     client_id: str, client_secret: str, redirect_uri: str
 ) -> spotipy.client.Spotify:
-    scope = ["user-read-currently-playing", "user-library-read", "user-read-playback-state", "streaming"]
+    scope = ["user-read-currently-playing", "user-library-read", "user-read-playback-state", "streaming", "user-modify-playback-state"]
     sp = spotipy.Spotify(
         auth_manager=SpotifyOAuth(
             client_id=client_id,

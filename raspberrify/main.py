@@ -30,7 +30,7 @@ def fetch_display_info(player: spotify.Playback) -> None:
 
 def main() -> None:
 
-    config = dotenv_values("../.env.secrets")
+    config = dotenv_values(".env.secrets")
 
     """for key, value in config.items():
         print(f"{key}: {value}")"""
@@ -46,15 +46,16 @@ def main() -> None:
     logging.info("Initialized client!")
 
     sense.link_stick(
-        on_up=(lambda *args, **kwargs: p.modify_volume(1), Trigger.HOLD),
-        on_down=(lambda *args, **kwargs: p.modify_volume(-1), Trigger.HOLD),
-        on_left=(lambda *args, **kwargs: p.previous(), Trigger.PRESS),
-        on_right=(lambda *args, **kwargs: p.next(), Trigger.PRESS),
-        on_middle=(lambda *args, **kwargs: p.toggle_playback(), Trigger.PRESS),
-        on_all=(lambda *args, **kwargs: p.refresh(), Trigger.PRESS),
+        on_up=(lambda *args, **kwargs: p.modify_volume(2), [Trigger.HOLD, Trigger.PRESS]),
+        on_down=(lambda *args, **kwargs: p.modify_volume(-2), [Trigger.HOLD, Trigger.PRESS]),
+        on_left=(lambda *args, **kwargs: p.previous(), [Trigger.PRESS]),
+        on_right=(lambda *args, **kwargs: p.next(), [Trigger.PRESS]),
+        on_middle=(lambda *args, **kwargs: p.toggle_playback(), [Trigger.PRESS]),
+        on_all=(lambda *args, **kwargs: p.refresh(), [Trigger.PRESS]),
     )
-
+    
     loop(player=p)
+
 
 
 # shamelessly stolen from https://stackoverflow.com/questions/12435211/threading-timer-repeat-function-every-n-seconds

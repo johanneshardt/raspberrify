@@ -25,13 +25,22 @@ def show(matrix: List[List[int]]) -> None:
 
 
 def link_stick(
-    on_up: tuple[Callable, Trigger],
-    on_down: tuple[Callable, Trigger],
-    on_left: tuple[Callable, Trigger],
-    on_right: tuple[Callable, Trigger],
-    on_middle: tuple[Callable, Trigger],
-    on_all: tuple[Callable, Trigger] = None,
+    on_up: tuple[Callable, list[Trigger]],
+    on_down: tuple[Callable, list[Trigger]],
+    on_left: tuple[Callable, list[Trigger]],
+    on_right: tuple[Callable, list[Trigger]],
+    on_middle: tuple[Callable, list[Trigger]],
+    on_all: tuple[Callable, list[Trigger]] = None,
 ) -> None:
+
+    def conditional(func, triggers: list[Trigger]):
+        @functools.wraps(func)
+        def wrapper(event: InputEvent):
+            if event.action in [t.value for t in triggers]:
+                return func()
+
+        return wrapper
+
     SENSE.stick.direction_up = conditional(*on_up)
     SENSE.stick.direction_down = conditional(*on_down)
     SENSE.stick.direction_left = conditional(*on_left)
@@ -41,10 +50,3 @@ def link_stick(
     if on_all is not None:
         SENSE.stick.direction_any = conditional(*on_all)
 
-    def conditional(func, trigger: Trigger):
-        @functools.wraps(func)
-        def wrapper(event: InputEvent):
-            if event.action == trigger:
-                return func
-
-        return wrapper
