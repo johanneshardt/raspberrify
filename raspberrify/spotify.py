@@ -29,7 +29,7 @@ class Playback:
 
     def refresh(self) -> None:
         self.lock.acquire()
-        p = self.client.currently_playing()
+        p = self.client.current_playback()
 
         if p is not None and p["item"] is not None:
             self.state = State.PLAYING
@@ -78,7 +78,7 @@ class Playback:
 def authorize(
     client_id: str, client_secret: str, redirect_uri: str
 ) -> spotipy.client.Spotify:
-    scope = ["user-read-currently-playing", "user-library-read"]
+    scope = ["user-read-currently-playing", "user-library-read", "user-read-playback-state", "streaming"]
     sp = spotipy.Spotify(
         auth_manager=SpotifyOAuth(
             client_id=client_id,

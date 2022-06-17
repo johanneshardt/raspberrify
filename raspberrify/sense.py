@@ -1,6 +1,6 @@
 import logging
 from sense_hat import SenseHat
-from typing import List
+from typing import List, Callable
 
 logger = logging.getLogger(__name__)
 
@@ -17,12 +17,12 @@ def show(matrix: List[List[int]]) -> None:
 
 
 def link_stick(
-    on_up: function,
-    on_down: function,
-    on_left: function,
-    on_right: function,
-    on_middle: function,
-    on_all: function = None,
+    on_up: Callable,
+    on_down: Callable,
+    on_left: Callable,
+    on_right: Callable,
+    on_middle: Callable,
+    on_all: Callable = None,
 ) -> None:
     SENSE.stick.direction_up = on_up
     SENSE.stick.direction_down = on_down

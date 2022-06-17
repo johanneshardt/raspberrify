@@ -7,14 +7,14 @@ from PIL import Image
 from dotenv import dotenv_values
 
 logger = logging.getLogger(__name__)
-logger.basicConfig(
+logging.basicConfig(
     level=logging.INFO, format="%(asctime)s: %(levelname)s - %(message)s"
 )
 
 
 def loop(player: spotify.Playback, refresh_delay: int = 3) -> None:
     LoopingTimer(
-        interval=refresh_delay, function=fetch_display_info, args=(player)
+        interval=refresh_delay, function=fetch_display_info, args=[player]
     ).start()
 
 
@@ -22,7 +22,7 @@ def fetch_display_info(player: spotify.Playback) -> None:
     player.refresh()
     if player.cached_track != player.track_id:
         logging.info(msg=f"Changed track to {player.track_id}")
-        im = player.get_cover().resize(size=(8, 8), resample=Image.LANCZOS)
+        im = player.get_cover().resize(size=(8, 8), resample=Image.Resampling.LANCZOS)
         sense.show(list(im.getdata()))
 
     player.cached_track = player.track_id  # TODO fix race condition
