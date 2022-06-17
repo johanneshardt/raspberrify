@@ -1,4 +1,4 @@
-from raspberrify.sense import link_stick
+from sense import link_stick, Trigger
 import spotify as spotify
 import sense as sense
 import threading, logging
@@ -46,12 +46,12 @@ def main() -> None:
     logging.info("Initialized client!")
 
     sense.link_stick(
-        on_up=lambda *args, **kwargs: p.modify_volume(5),
-        on_down=lambda *args, **kwargs: p.modify_volume(-5),
-        on_left=lambda *args, **kwargs: p.previous(),
-        on_right=lambda *args, **kwargs: p.next(),
-        on_middle=lambda *args, **kwargs: p.toggle_playback(),
-        on_all=lambda *args, **kwargs: p.refresh(),
+        on_up=(lambda *args, **kwargs: p.modify_volume(1), Trigger.HOLD),
+        on_down=(lambda *args, **kwargs: p.modify_volume(-1), Trigger.HOLD),
+        on_left=(lambda *args, **kwargs: p.previous(), Trigger.PRESS),
+        on_right=(lambda *args, **kwargs: p.next(), Trigger.PRESS),
+        on_middle=(lambda *args, **kwargs: p.toggle_playback(), Trigger.PRESS),
+        on_all=(lambda *args, **kwargs: p.refresh(), Trigger.PRESS),
     )
 
     loop(player=p)
