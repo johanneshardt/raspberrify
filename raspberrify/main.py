@@ -19,7 +19,7 @@ def loop(player: spotify.Playback, refresh_delay: int = 3) -> None:
 def fetch_display_info(player: spotify.Playback) -> None:
     player.refresh()
     if player.cached_track != player.track_id:
-        logging.info(msg=f"Changed track to {player.track_id}")
+        logging.info(msg=f"Changed track to '{player.track}'")
         im = player.get_cover().resize(size=(8, 8), resample=Image.Resampling.LANCZOS)
         show(list(im.getdata()))
 
